@@ -1,22 +1,30 @@
-import {AxiosRequestConfig} from "./types";
+import { AxiosRequestConfig } from './types'
 import xhr from './xhr'
-import {buildURL} from "./helpers/url";
+import { buildURL } from './helpers/url'
+import { transformRequest } from './helpers/data'
 
 function axios(config: AxiosRequestConfig) {
-    // 发送请求前对config进行处理
-    processConfig(config)
-    xhr(config)
+  // 发送请求前对config进行处理
+  processConfig(config)
+  xhr(config)
 }
 
 function processConfig(config: AxiosRequestConfig): void {
-    // 处理config中的url，后续还会处理其它参数
-    config.url = transformUrl(config)
+  // 处理config中的url
+  config.url = transformUrl(config)
+  // 处理config中的data
+  config.data = transformRequestData(config)
 }
 
 // 处理config中的url，params
 function transformUrl(config: AxiosRequestConfig): string {
-    const {url, params} = config
-    return buildURL(url, params)
+  const { url, params } = config
+  return buildURL(url, params)
+}
+
+// 处理请求body中的数据
+function transformRequestData(config: AxiosRequestConfig): any {
+  return transformRequest(config)
 }
 
 export default axios
