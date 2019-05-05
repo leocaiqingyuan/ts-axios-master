@@ -1,5 +1,9 @@
 import { isPlainObject } from './util'
 
+/**
+ * 因为header属性对大小写不敏感
+ * 所以我们需要对传入的属性名做一个规范化
+ */
 function normalizeHeaderName(headers: any, normalizedName: string): void {
   if (!headers) {
     return

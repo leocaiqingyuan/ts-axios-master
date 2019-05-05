@@ -13,6 +13,7 @@ function axios(config: AxiosRequestConfig) {
 function processConfig(config: AxiosRequestConfig): void {
   // 处理config中的url
   config.url = transformUrl(config)
+  // 处理请求header
   config.headers = transformHeaders(config)
   // 处理config中的data
   config.data = transformRequestData(config)
@@ -24,6 +25,7 @@ function transformUrl(config: AxiosRequestConfig): string {
   return buildURL(url, params)
 }
 
+// 处理请求header
 function transformHeaders(config: AxiosRequestConfig) {
   const { headers = {}, data } = config
   return processHeaders(headers, data)
