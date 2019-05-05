@@ -31,7 +31,7 @@ function transformHeaders(config: AxiosRequestConfig) {
 
 // 处理请求body中的数据
 function transformRequestData(config: AxiosRequestConfig): any {
-  return transformRequest(config)
+  return transformRequest(config.data)
 }
 
 export default axios
