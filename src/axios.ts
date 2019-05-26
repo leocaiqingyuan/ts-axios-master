@@ -1,9 +1,10 @@
-import { AxiosInstance, AxiosRequestConfig } from './types'
+import { AxiosRequestConfig, AxiosStatic } from './types'
 import Axios from './core/Axios'
 import { extend } from './helpers/util'
 import defaults from './defaults'
+import mergeConfig from './core/mergeConfig'
 
-function createInstance(config: AxiosRequestConfig): AxiosInstance {
+function createInstance(config: AxiosRequestConfig): AxiosStatic {
   const context = new Axios(config)
 
   // 给 Axios 的原型绑定 request 方法
@@ -12,9 +13,13 @@ function createInstance(config: AxiosRequestConfig): AxiosInstance {
   // 将Axios的原型属性和实例属性，拷贝到instance中
   extend(instance, context)
 
-  return instance as AxiosInstance
+  return instance as AxiosStatic
 }
 
 const axios = createInstance(defaults)
+
+axios.create = function(config) {
+  return createInstance(mergeConfig(defaults, config))
+}
 
 export default axios
