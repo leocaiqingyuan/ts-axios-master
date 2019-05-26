@@ -2,7 +2,7 @@ import { AxiosPromise, AxiosRequestConfig, AxiosResponse } from '../types'
 import xhr from './xhr'
 import { buildURL } from '../helpers/url'
 import { transformRequest, transformResponse } from '../helpers/data'
-import { processHeaders } from '../helpers/header'
+import { flattenHeaders, processHeaders } from '../helpers/header'
 
 export default function dispatchRequest(config: AxiosRequestConfig): AxiosPromise {
   // 发送请求前对config进行处理
@@ -19,6 +19,7 @@ function processConfig(config: AxiosRequestConfig): void {
   config.headers = transformHeaders(config)
   // 处理config中的data
   config.data = transformRequestData(config)
+  config.headers = flattenHeaders(config.headers, config.method!)
 }
 
 // 处理config中的url，params
