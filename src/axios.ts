@@ -4,6 +4,7 @@ import { extend } from './helpers/util'
 import defaults from './defaults'
 import mergeConfig from './core/mergeConfig'
 
+// axios 的工厂函数
 function createInstance(config: AxiosRequestConfig): AxiosStatic {
   const context = new Axios(config)
 

@@ -64,14 +64,14 @@ import axios from '../../src/index'
 // 处理url请求参数 demo end
 
 // 处理body中的数据 start
-// axios({
-//     method: 'post',
-//     url: '/base/post',
-//     data: {
-//         a: 1,
-//         b: 2
-//     }
-// })
+axios({
+    method: 'post',
+    url: '/base/post',
+    data: {
+        a: 1,
+        b: 2
+    }
+})
 
 // const arr = new Int32Array([21, 31])
 //
@@ -116,26 +116,26 @@ import axios from '../../src/index'
 // 处理请求header end
 
 // 获取响应数据 start
-axios({
-    method: 'post',
-    url: '/base/post',
-    data: {
-        a: 1,
-        b: 2
-    }
-}).then((res) => {
-    console.log(res)
-})
-
-axios({
-    method: 'post',
-    url: '/base/post',
-    responseType: 'json',
-    data: {
-        a: 3,
-        b: 4
-    }
-}).then((res) => {
-    console.log(res)
-})
+// axios({
+//     method: 'post',
+//     url: '/base/post',
+//     data: {
+//         a: 1,
+//         b: 2
+//     }
+// }).then((res) => {
+//     console.log(res)
+// })
+//
+// axios({
+//     method: 'post',
+//     url: '/base/post',
+//     responseType: 'json',
+//     data: {
+//         a: 3,
+//         b: 4
+//     }
+// }).then((res) => {
+//     console.log(res)
+// })
 // 获取响应数据 end

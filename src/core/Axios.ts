@@ -99,6 +99,7 @@ export default class Axios {
     return this._requestMethodWithData('patch', url, data, config)
   }
 
+  // get、delete、head请求不需要传data参数，而post、put、patch请求是支持传data参数的，我们需要将url、data与config参数做一个合并
   _requestMethodWidthoutData(method: Method, url: string, config?: AxiosRequestConfig) {
     return this.request(
       Object.assign(config || {}, {

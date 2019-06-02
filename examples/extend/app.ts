@@ -1,13 +1,13 @@
 import axios from '../../src/index'
 
 // 扩展接口 start
-// axios({
-//     url: '/extend/post',
-//     method: 'post',
-//     data: {
-//         msg: 'hi'
-//     }
-// })
+axios({
+    url: '/extend/post',
+    method: 'post',
+    data: {
+        msg: 'hi'
+    }
+})
 //
 // axios.request({
 //     url: '/extend/post',
@@ -50,30 +50,30 @@ import axios from '../../src/index'
 // axios函数重载 end
 
 // 响应数据支持泛型参数 start
-interface ResponseData<T = any> {
-    code: number
-    result: T
-    message: string
-}
-
-interface User {
-    name: string
-    age: number
-}
-
-function getUser<T>() {
-    return axios<ResponseData<T>>('/extend/user')
-        .then(res => res.data)
-        .catch(err => console.error(err))
-}
-
-
-async function test() {
-    const user = await getUser<User>()
-    if (user) {
-        console.log(user.result.name)
-    }
-}
-
-test()
+// interface ResponseData<T = any> {
+//     code: number
+//     result: T
+//     message: string
+// }
+//
+// interface User {
+//     name: string
+//     age: number
+// }
+//
+// function getUser<T>() {
+//     return axios<ResponseData<T>>('/extend/user')
+//         .then(res => res.data)
+//         .catch(err => console.error(err))
+// }
+//
+//
+// async function test() {
+//     const user = await getUser<User>()
+//     if (user) {
+//         console.log(user.result.name)
+//     }
+// }
+//
+// test()
 // 响应数据支持泛型参数 end
