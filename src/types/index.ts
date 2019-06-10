@@ -85,11 +85,15 @@ export interface AxiosInstance extends Axios {
 
 export interface AxiosStatic extends AxiosInstance {
   create(config?: AxiosRequestConfig): AxiosInstance
+
+  CancelToken: CancelTokenStatic
+  Cancel: CancelStatic
+  isCancel: (value: any) => boolean
 }
 
 // Axios 拦截器
 export interface AxiosInterceptorManager<T> {
-  use(resolved: ResolvedFn<T>, rejected?: ResolvedFn): number
+  use(resolved: ResolvedFn<T>, rejected?: RejectedFn): number
 
   eject(id: number): void
 }
@@ -141,12 +145,4 @@ export interface Cancel {
 // CancelStatic 是类类型的接口定义
 export interface CancelStatic {
   new (message?: string): Cancel
-}
-
-export interface AxiosStatic extends AxiosInstance {
-  create(config?: AxiosRequestConfig): AxiosInstance
-
-  CancelToken: CancelTokenStatic
-  Cancel: CancelStatic
-  isCancel: (value: any) => boolean
 }

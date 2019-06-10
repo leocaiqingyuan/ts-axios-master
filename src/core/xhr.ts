@@ -36,6 +36,12 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
       if (request.readyState !== 4) {
         return
       }
+
+      // 当出现网络错误或者超时错误的时候，status 值都为 0。
+      if (request.status === 0) {
+        return
+      }
+
       const responseHeaders = parseHeaders(request.getAllResponseHeaders())
       const responseData =
         responseType && responseType !== 'text' ? request.response : request.responseText
