@@ -1,4 +1,4 @@
-import axios from '../../src/index'
+import axios, { AxiosError } from '../../src/index'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
@@ -96,6 +96,24 @@ axios.post('/more/post', {
     password: '123456'
   }
 }).then(res => {
-  console.log(res);
+  console.log(res)
 })
 // HTTP 授权 end
+
+// 自定义合法状态码 start
+axios.get('/more/304').then(res => {
+  console.log(res)
+}).catch((e: AxiosError) => {
+  console.log(e.message)
+})
+
+axios.get('/more/304', {
+  validateStatus(status) {
+    return status >= 200 && status < 400
+  }
+}).then(res => {
+  console.log(res)
+}).catch((e: AxiosError) => {
+  console.log(e.message)
+})
+// 自定义合法状态码 end

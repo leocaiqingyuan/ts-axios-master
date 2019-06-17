@@ -20,7 +20,8 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
       xsrfHeaderName,
       onDownloadProgress,
       onUploadProgress,
-      auth
+      auth,
+      validateStatus
     } = config
 
     const request = new XMLHttpRequest()
@@ -139,8 +140,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
 
     // 处理非200状态码
     function handleResponse(response: AxiosResponse) {
-      // 此处应该是漏掉了一个304状态码，304代表请求资源没有被修改，可以直接访问浏览器中的缓存，故收到304也应该返回一个resolve
-      if (response.status >= 200 && response.status < 300) {
+      if (!validateStatus || validateStatus(response.status)) {
         resolve(response)
       } else {
         reject(
