@@ -1,4 +1,4 @@
-import { isDate, isPlainObject } from './util'
+import { isDate, isPlainObject, isURLSearchParams } from './util'
 
 interface URLOrigin {
   protocol: string
@@ -26,40 +26,52 @@ function encode(val: string): string {
  * @param url
  * @param params
  */
-export function buildURL(url: string, params?: any) {
+export function buildURL(
+  url: string,
+  params?: any,
+  paramsSerializer?: (params: any) => string
+): string {
   if (!params) {
     return url
   }
 
-  const parts: string[] = []
+  let serializedParams
 
-  // 将参数params转换成一个统一的数组
-  Object.keys(params).forEach(key => {
-    let val = params[key]
-    // 存放每个object[key]的数组
-    let values: string[]
+  if (paramsSerializer) {
+    serializedParams = paramsSerializer(params)
+  } else if (isURLSearchParams(params)) {
+    serializedParams = params.toString()
+  } else {
+    const parts: string[] = []
 
-    if (val === null || typeof val === 'undefined') {
-      // forEach 里面的return只会跳出当前循环，不会跳出整个forEach循环，
-      return
-    }
-    if (Array.isArray(val)) {
-      values = val
-      key += '[]'
-    } else {
-      values = [val]
-    }
-    values.forEach(val => {
-      if (isDate(val)) {
-        val = val.toISOString()
-      } else if (isPlainObject(val)) {
-        val = JSON.stringify(val)
+    // 将参数params转换成一个统一的数组
+    Object.keys(params).forEach(key => {
+      let val = params[key]
+      // 存放每个object[key]的数组
+      let values: string[]
+
+      if (val === null || typeof val === 'undefined') {
+        // forEach 里面的return只会跳出当前循环，不会跳出整个forEach循环，
+        return
       }
-      parts.push(`${encode(key)}=${encode(val)}`)
+      if (Array.isArray(val)) {
+        values = val
+        key += '[]'
+      } else {
+        values = [val]
+      }
+      values.forEach(val => {
+        if (isDate(val)) {
+          val = val.toISOString()
+        } else if (isPlainObject(val)) {
+          val = JSON.stringify(val)
+        }
+        parts.push(`${encode(key)}=${encode(val)}`)
+      })
     })
-  })
 
-  let serializedParams = parts.join('&')
+    serializedParams = parts.join('&')
+  }
 
   if (serializedParams) {
     // 判断url中是否存在hash值
