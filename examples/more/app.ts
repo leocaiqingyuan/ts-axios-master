@@ -154,11 +154,45 @@ import qs from 'qs'
 // 自定义序列化参数 end
 
 // baseUrl start
-const instance = axios.create({
-  baseURL: 'https://img.mukewang.com/'
-})
-
-instance.get('5cc01a7b0001a33718720632.jpg')
-
-instance.get('https://img.mukewang.com/szimg/5cbf00c608f52a3b06000338-280-160.jpg')
+// const instance = axios.create({
+//   baseURL: 'https://img.mukewang.com/'
+// })
+//
+// instance.get('5cc01a7b0001a33718720632.jpg')
+//
+// instance.get('https://img.mukewang.com/szimg/5cbf00c608f52a3b06000338-280-160.jpg')
 // baseUrl end
+
+// 静态方法扩展 start
+function getA() {
+  return axios.get('/more/A')
+}
+
+function getB() {
+  return axios.get('/more/B')
+}
+
+axios.all([getA(), getB()])
+  .then(axios.spread(function(resA, resB) {
+    console.log(resA.data)
+    console.log(resB.data)
+  }))
+
+
+axios.all([getA(), getB()])
+  .then(([resA, resB]) => {
+    console.log(resA.data)
+    console.log(resB.data)
+  })
+
+const fakeConfig = {
+  baseURL: 'https://www.baidu.com/',
+  url: '/user/12345',
+  params: {
+    idClient: 1,
+    idTest: 2,
+    testString: 'thisIsATest'
+  }
+}
+console.log(axios.getUri(fakeConfig))
+// 静态方法扩展 end
